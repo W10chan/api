@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Map App</title>
+    <style>
+      #map {
+        height: 400px;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Simple Map App</h1>
+    <input type="text" id="address" placeholder="Enter an address">
+    <button onclick="showMap()">Show Map</button>
+    <div id="map"></div>
+
+    <script>
+      function showMap() {
+        var address = document.getElementById("address").value;
+        var geocoder = new google.maps.Geocoder();
+
+        geocoder.geocode({ address: address }, function (results, status) {
+          if (status === google.maps.GeocoderStatus.OK) {
+            var map = new google.maps.Map(document.getElementById("map"), {
+              center: results[0].geometry.location,
+              zoom: 14
+            });
+
+            new google.maps.Marker({
+              map: map,
+              position: results[0].geometry.location
+            });
+          } else {
+            alert("Geocode was not successful for the following reason: " + status);
+          }
+        });
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQI8ffLMurjcvc4LoTK9jLK6Txwx9_hhg&callback=initMap" async defer></script>
+  </body>
+</html>
